@@ -109,7 +109,21 @@ public abstract class CodeGenerator extends AbstractGenerator
 
   protected static String capitalize(String name)
   {
-    return Character.toUpperCase(name.charAt(0)) + name.substring(1);
+    String result = Character.toUpperCase( name.charAt( 0 ) ) + name.substring( 1 );
+    result = camelCaseify( result, '.' );
+    result = camelCaseify( result, '/' );
+    return result;
+  }
+
+  private static String camelCaseify( String string, char toRemove ) {
+    String result = string;
+    while ( result.indexOf( toRemove ) >= 0 ) {
+      final int index = result.indexOf( toRemove );
+      result = result.substring( 0, index ) +
+        Character.toUpperCase( result.charAt( index + 1 ) ) +
+        result.substring( index + 2 );
+    }
+    return result;
   }
 
   protected void initializeDefaultPackage()

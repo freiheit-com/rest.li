@@ -964,7 +964,7 @@ class PegasusPlugin implements Plugin<Project>
       final Task generateRestModelTask = project.task(sourceSet.getTaskName('generate', 'restModel'),
                                                       type: GenerateRestModel,
                                                       dependsOn: project.tasks[sourceSet.compileJavaTaskName]) {
-        inputDirs = sourceSet.allSource.srcDirs
+        inputDirs = sourceSet.java.srcDirs
         // we need all the artifacts from runtime for any private implementation classes the server code might need.
         runtimeClasspath = project.configurations.runtime + sourceSet.runtimeClasspath
         snapshotDestinationDir = project.file(destinationDirPrefix + 'snapshot')
@@ -1191,7 +1191,7 @@ class PegasusPlugin implements Plugin<Project>
     _generateSourcesJarTask.dependsOn(generateDataTemplatesTask)
 
     _generateJavadocTask.source(generateDataTemplatesTask.destinationDir)
-    _generateJavadocTask.classpath += project.configurations.dataTemplateCompile + generateDataTemplatesTask.resolverPath
+    _generateJavadocTask.classpath += project.configurations.dataTemplateCompile //+ generateDataTemplatesTask.resolverPath
     _generateJavadocTask.dependsOn(generateDataTemplatesTask)
 
     // create new source set for generated java source and class files
